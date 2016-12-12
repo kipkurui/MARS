@@ -653,6 +653,7 @@ class AssessByComparisonView(AssessByScoreView):
 
 
 class AssessByEnrichmentView(AssessByScoreView):
+    static_files = get_path(method="enrich")[0]
     form_class = AssessByEnrichmentForm
     success_url = "/enrichment"
     template_name = "MATOM/assess_by_enrichment.html"
