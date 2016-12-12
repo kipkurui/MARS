@@ -129,7 +129,7 @@ class SearchView(AjaxableResponseMixin, FormView):
                 #results_folder = '%s/MATOM/static/files/temp' % BASE_DIR
                 #results_folder = '%s/www/MARS/static/files/%s' % (home, method)
                 results_folder = "%stemp" % get_path()[0]
-                print results_folder
+                mkdir_p(results_folder)
 
                 if Tf_exists:
 
@@ -262,6 +262,7 @@ class SearchResultsView(FormView):
         # Write  a function, that uses these data to get the summary information.
         results_folder = "%s/temp" % get_path()[0]
         print results_folder
+
 
         if Tf_exists:
 
