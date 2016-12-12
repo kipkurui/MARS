@@ -128,7 +128,7 @@ class SearchView(AjaxableResponseMixin, FormView):
                 # Write  a function, that uses these data to get the summary information.
                 #results_folder = '%s/MATOM/static/files/temp' % BASE_DIR
                 #results_folder = '%s/www/MARS/static/files/%s' % (home, method)
-                results_folder = "%s/temp" % get_path()[0]
+                results_folder = "%stemp" % get_path()[0]
                 print results_folder
 
                 if Tf_exists:
@@ -265,7 +265,7 @@ class SearchResultsView(FormView):
 
         if Tf_exists:
 
-            meme_out = '%s/temp.meme' % results_folder
+            meme_out = '%stemp.meme' % results_folder
 
             with open(meme_out, "w") as out_file:
                 print "Lets get mmeme"
