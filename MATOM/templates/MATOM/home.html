@@ -1,0 +1,203 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MAT</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'MATOM/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'MATOM/css/main.css' %}" rel="stylesheet">
+{#    <link href="{% static 'MATOM/css/jquery-ui-1.10.4.custom.css' %}" rel="stylesheet">#}
+
+   <link href="{% static 'MATOM/jquery-ui-1.12.0-rc.2/jquery-ui.min.css' %}" rel="stylesheet">
+
+
+        <link href="{% static 'MATOM/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'MATOM/css/font-awesome-animation.min.css' %}" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link href="{% static 'MATOM/css/simple-sidebar.css' %}" rel="stylesheet">
+
+</head>
+{% block headers %}
+<body>
+
+<!--nav bar header -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid expanded-panel">
+          <div class="row">
+        <div class="navbar-header">
+
+        <a class="navbar-brand" href="/"> Motif Assessment Tools </a>
+</div>
+
+       			<div id="top-panel" class="col-xs-12 col-sm-10">
+        				<div class="row">
+        					 <ul class="nav navbar-nav">
+
+              <li  class="Toggle_button"><a href="#menu-toggle"  id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
+{#      <li><a href="#">Page 1</a></li>#}
+{#      <li><a href="#">Page 2</a></li>#}
+{#      <li><a href="#">Page 3</a></li>#}
+    </ul>
+
+
+        					</div>
+        				</div>
+        			</div>
+
+{##}
+{# <ul class="nav navbar-nav">#}
+{##}
+{#              <li  class="Toggle_button"><a href="#menu-toggle"  id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></li>#}
+{#      <li><a href="#">Page 1</a></li>#}
+{#      <li><a href="#">Page 2</a></li>#}
+{#      <li><a href="#">Page 3</a></li>#}
+{#    </ul>#}
+
+{#          <div class="col-xs-8 col-md-4">#}
+{#        						<ul style="list-style-type:none">#}
+{#                                    <li  class="Toggle_button"><a href="#menu-toggle"  id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></li>#}
+{#                                </ul>#}
+{#        					</div>#}
+
+        </div>
+           </div>
+    </nav>
+
+        <!-- Sidebar -->
+
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                </li>
+                <li>
+                    <a href="/comparison">Assess By Comparison</a>
+
+                </li>
+
+                <li>
+                    <a href="/enrichment">Assess By Enrichment</a>
+                </li>
+                <li>
+                    <a href="/score">Assess By Scoring</a>
+                </li>
+                  <li>
+                    <a href="/search">Search</a>
+                </li>
+                <li>
+                    <a href="#">plot</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+
+
+{% endblock headers%}
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+
+{#                    <div class="col-lg-9">#}
+
+
+                    {% block content %}
+                          <div>
+
+                        <h1>Background</h1>
+{#                         <script type="text/javascript" src="//ra.revolvermaps.com/0/0/7.js?i=0txyqahhz0h&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0" async="async"></script>#}
+                        <p>This site will contain a suite of tools aimed at assessing the performance of motifs and the tool that generate them...</p>
+
+                            This image is just a place holder, should be able to get something representative here:
+                            <img src="static/MATOM/img/home.png" alt="My image" class="img-responsive"/>
+                        <p>Under development</p>
+
+                             </div>
+                    {%  endblock content %}
+
+                </div>
+
+{#                </div>#}
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+
+    <script src="{% static 'MATOM/js/jquery.js' %}"></script>
+{#    <script src="{% static 'MATOM/js/jquery-ui.min.js' %}"></script>#}
+    <script src="{% static 'MATOM/jquery-ui-1.12.0-rc.2/jquery-ui.min.js' %}"></script>
+{#    <script src="{% static 'MATOM/js/sorttable.js' %}"></script>#}
+    <script src="{% static 'MATOM/js/jquery.tablesorter.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'MATOM/js/bootstrap.min.js' %}"></script>
+
+
+    <!--main.js -->
+    <script type="text/javascript" src="{% static 'MATOM/js/main.js' %}"></script>
+    <!-- Menu Toggle Script -->
+
+
+
+
+{% comment %}
+//This is the Ajax post.Observe carefully. It is nothing but details of where_to_post,what_to_post
+//Send data
+     $.ajax({
+         url: "/comparison/", // the endpoint,commonly same url
+         type: "POST", // http method
+         data: $("#id-comparisonForm").serialize(),
+         /*data: {
+             csrfmiddlewaretoken: csrftoken,
+             mode: $("input[name=mode]:checked").val(),
+             tf: $('#id_tf').val(),
+             test_motif: $('#id_test_motif').val(),
+             uploaded_motif: $('#id_uploaded_motif').val()
+         },*/ // data sent with the post request
+
+         // handle a successful response
+         success: function (json) {
+             $('#comp-img').hide();
+             //TODO: This is a temporary solution. Requires full page reload and doesn't store the page history.
+             //FIXME.In addition this technique is said to be unstable and not recommended
+             //$('#replace-this').html(json);
+             $('#replace-this').replaceWith($(json));
+             //document.open();
+            //document.write(json);
+            //document.close();
+             //$('body').load( url,[data],[callback] );
+             //$('#comp-hide').show();
+             //$('.row.replace').html(json);
+             //console.log(json); // another sanity check
+             //On success show the data posted to server as a message
+             //alert('Hi   ' + json['mode'] + '!.' + '  You have entered password:' + json['tf']);
+         },
+
+         // handle a non-successful response
+         error: function (xhr, errmsg, err) {
+             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+         }
+     });
+{% endcomment %}
+
+
+
+</body>
+
+</html>

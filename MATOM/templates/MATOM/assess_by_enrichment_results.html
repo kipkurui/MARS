@@ -1,0 +1,83 @@
+{% extends "MATOM/index.html" %}
+{% load staticfiles %}
+
+
+
+
+{%block content %}
+<div id="get-this">
+<div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            EB-MAR: <small>Results page</small>
+                        </h1>
+                    </div>
+                </div>
+
+
+<div id="menus">
+ <h3 id="ranks">The ranks of {{ tf|capfirst }} motifs based on Centrimo</h3>
+
+    <div>
+
+     <img src="{{display_img}}{{ tf }}_centrimo.png" alt="My image" class="img-responsive"/>
+
+    </div>
+
+<h3 id="assess table">Raw Data Table</h3>
+  <div id="table">
+    <div class="formattable" >
+        <table id="myTable" class="sortable">
+    <thead>
+<p style="text-align: center; color: red">Click on the table headers to sort</p>
+
+    <tr>
+    {%  for th in t_head %}
+        <th>{{ th }}</th>
+    {% endfor %}
+
+    </tr>
+</thead>
+<tbody>
+        {%  for motifs in t_body %}
+            <tr>
+
+            {%  for motif in motifs %}
+                <td>{{ motif }}</td>
+            {% endfor %}
+
+           </tr>
+        {% endfor %}
+            </tbody>
+    </table>
+    </div>
+  </div>
+
+<h3 id="download">Download data</h3>
+    <div>
+        <p>
+            The raw data from this analysis can be downloaded from the following links:
+        </p>
+         <ul class="fa-ul">
+                 <li><a href="{{display_img}}{{ tf }}_centrimo.eps"><i class="fa fa-download" aria-hidden="true"></i>    The ranks of Max motifs based on {{ mode |capfirst }}</a></li>
+                     <li><a href="{{ display_img }}{{ tf }}_ranked_by_{{ mode|lower }}.meme"><i class="fa fa-download" aria-hidden="true"></i>    Ranked {{ tf|capfirst }} motifs in meme format</a></li>
+             </ul>
+
+
+    </div>
+
+
+
+
+ </div>
+</div>
+
+{% endblock content %}
+
+<div id="div_id_tf" class="form-group has-error">
+    <label for="id_tf" class="control-label  requiredField">
+                Transcription factor name:<span class="asteriskField">*</span> </label>
+    <div class="controls "> <input class="textinput textInput form-control form-control" id="id_tf" name="tf" type="text">
+    <span id="error_1_id_tf" class="help-block"><strong>This field is required.</strong></span>
+    </div>
+</div>

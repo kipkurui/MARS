@@ -1,0 +1,184 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MAT</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'MATOM/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'MATOM/css/jquery-ui-1.10.4.custom.css' %}" rel="stylesheet">
+{#    <img src="{% static "my_app/myexample.jpg" %}" alt="My image"/>#}
+
+    <!-- Custom CSS -->
+    <link href="{% static 'MATOM/css/simple-sidebar.css' %}" rel="stylesheet">
+     <link href="{% static 'MATOM/css/main.css' %}" rel="stylesheet">
+
+
+</head>
+
+
+
+{% block headers %}
+
+
+
+<div id="sib_top">
+  <a name="TOP"></a>
+</div>
+
+<div id="sib_container">
+
+  <!-- HEADER -->
+
+<div id="sib_header">
+
+    <div class="col-md-4">
+    <span></span>
+    </div>
+
+<div id="sib_title">
+
+ <h1 class="col-md-6"> Motif Assessment Tools </h1>
+</div>
+
+<ul class="quick_links">
+  <li>
+  <a href="/" title="Who are we?">About Us</a>
+  </li>
+  <li>
+  <a href="#" title="Download standalone version of the tool">Downloads</a>
+  </li>
+  <li>
+  <a href="#" title="Cite the MATOM tools">Cite Us </a>
+  </li>
+  <li>
+  <a href="#" title="Documentation"> Documentation </a>
+  </li>
+</ul>
+ </div>
+         
+
+{% endblock headers%}
+<!-- SIB_BODY -->
+
+{#    <div id="wrapper">#}
+{#        <div id="sidebar-wrapper">#}
+{#            <ul class="sidebar-nav">#}
+{#                <li class="sidebar-brand">#}
+{#                    <br>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="/comparison">Assess By Comparison</a>#}
+{##}
+{#                </li>#}
+{##}
+{#                <li>#}
+{#                    <a href="/enrichment">Assess By Enrichment</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="/score">Assess By Scoring</a>#}
+{#                </li>#}
+{#                  <li>#}
+{#                    <a href="/search">Search</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="#">plot</a>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
+
+<div id="sib_body">
+
+  <ul class="sib_menu left_menu">
+    <li class="menu_title">
+    <a href="/comparison" title="Motif assessment by similarity to majority of motifs" >Assess by comparison</a>
+    </li>
+      <li class="menu_title">
+          <a href="/enrichment">Assess By Enrichment</a>
+      </li>
+    <li class="menu_title">
+    <a href="/score" title="Motif assessment by ability to score test sequences compared with background">Assess by score</a>
+    </li>
+          <li class="menu_title">
+    <a href="/search" title="Search for transcription factors alternative names">Search</a>
+    </li>
+
+    <li class="menu_title">
+    <a href="/contact" title="Our e-mail, phone, address">Contact Us</a>
+    </li>
+  </ul>
+
+
+<div class="content">
+
+
+
+
+<div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-9">
+
+    {% block content %}
+                          <div>
+{#                         <script type="text/javascript" src="//ra.revolvermaps.com/0/0/7.js?i=0txyqahhz0h&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0" async="async"></script>#}
+                        <p>This site will contain a suite of tools aimed at assessing the performance of motifs and the tool that generate them...</p>
+                              This image is just a place holder, should be able to get something representative here:
+                              <img src="static/MATOM/img/home.png" alt="My image" class="img-responsive"/>
+
+                        <p>Under development</p>
+
+                             </div>
+     {%  endblock content %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+
+    <script src="{% static 'MATOM/js/jquery.js' %}"></script>
+    <script src="{% static 'MATOM/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'MATOM/js/sorttable.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'MATOM/js/bootstrap.min.js' %}"></script>
+    <!--main.js -->
+    <script src="{% static 'MATOM/js/main.js' %}"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+        //figuring out wha
+
+        $(document).ready(function() {
+    $("#menus").accordion({collapsible: true, active: false, heightStyle: "content"});
+});
+
+
+    </script>
+
+</div>
+
+</div>
+
+</body>
+</html>

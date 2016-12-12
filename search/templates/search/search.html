@@ -1,0 +1,53 @@
+{% extends "MATOM/index.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div id="get-this">
+    <body>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Search <small>Check for motifs and benchmark data availability</small>
+                        </h1>
+{#                        <ol class="breadcrumb">#}
+{#                            <li class="active">#}
+{#                                <i class="fa fa-dashboard"></i> Dashboard#}
+{#                            </li>#}
+{#                        </ol>#}
+                    </div>
+                </div>
+<div class="row">
+  <div class="col-md-6">
+        <div>
+
+
+{#            <form method="get" action="/search/">{% csrf_token %}#}
+
+                {% crispy form %}
+
+{#              <input class="btn btn-primary" type="submit" value="Search"/>#}
+{#             </form>#}
+
+            <ul>
+            {% if not_found == ''%}
+                <p>Search results for "{{ query_string }}" : </p>
+
+                <form>
+                {% for items in found_entries %}
+                    <input type="radio" name="{{ items.tf_name }}" value={{ items.tf_id }} checked> {{ items.tf_name }}<br>
+                {% endfor %}
+                </form>
+            {% else %}
+                <br>
+                 {{ not_found }}
+            {% endif %}
+
+            </ul>
+
+        </div>
+  </div>
+  </div>
+    </body>
+    </div>
+{% endblock content%}

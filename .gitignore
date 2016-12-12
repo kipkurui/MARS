@@ -1,0 +1,50 @@
+# Created by https://www.gitignore.io/api/pycharm
+
+### PyCharm ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
+
+*.iml
+
+## Directory-based project format:
+.idea/
+
+## File-based project format:
+*.ipr
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+
+#Huge genome files
+Data/hg19*
+#/Data/hg19.fa
+MATOM/static/files/
+MATOM/static_root/
+*.pyc
+
+### IPythonNotebook ###
+# Temporary data
+.ipynb_checkpoints/
+
+
+#local settings
+
+MAT/settings/*
+MARSTools
+
+
+ #git filter-branch --tree-filter 'rm -f hg19.fa' HEAD
+ # git rm --cached Data/hg19.fa

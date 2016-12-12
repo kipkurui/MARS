@@ -1,0 +1,112 @@
+{% extends "MATOM/home.html" %}
+{% load staticfiles %}
+
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Assess by score results</title>
+</head>
+<body >
+{% comment %}{% block headers %}
+
+{% endblock %}{% endcomment %}
+
+{% block menu-button %}
+
+{% endblock menu-button %}
+
+{% block content  %}
+ <div id="menus">
+
+ <div id="results-header">
+  <br>
+ <br>
+<h3 id="top">Assess Motifs By Score Results Page</h3>
+<ul class="nav nav-tabs ">
+	<li class="active"><a href="#ranks">Asses figure</a></li>
+<li><a href="#assess table">Assess table</a></li>
+    {% if mode == "ASSESS" %}
+	<li><a href="#raw">Raw data</a></li>
+    {% endif %}
+	<li><a href="#download">Downloads</a></li>
+
+</ul>
+</div>
+
+
+ <div >
+
+  <br>
+ <br>
+     <h3 id="ranks">The ranks of {{ tf|capfirst }} motifs based on {{ mode|lower|capfirst }}</h3>
+
+     <img src="{{display_img}}_rot.png" alt="My image" class="img-responsive"/>
+
+     <br>
+     <br>
+     <br>
+
+        <div id="table">
+  <br>
+<h3 id="assess table">Raw Data Table</h3>
+    <br>
+    <br>
+
+    <div class="formattable" >
+    <table class="sortable">
+
+    <tr>
+    {%  for th in t_head %}
+        <th>{{ th }}</th>
+    {% endfor %}
+
+    </tr>
+        {%  for motifs in gomer_list %}
+            <tr>
+
+            {%  for motif in motifs %}
+                <td>{{ motif }}</td>
+            {% endfor %}
+
+           </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+    <br>
+      <br>
+ {% if mode == "ASSESS" %}
+ <br>
+    <h3 id="raw">The raw data (AUC)</h3>
+<img src="{{display_img}}_raw.png" alt="My raw image" class="img-responsive"/>
+{% endif %}
+  <br>
+ <br>
+<h3 id="download">Download data</h3>
+<br>
+ <p>
+     The raw data from this analysis can be downloaded from the following links:
+ </p>
+ <ul>
+     <li>Download publication quality eps figure:</li>
+
+     <ul>
+         <li><a href="{{display_img}}.eps">The ranks of Max motifs based on Assess</a></li>
+         {% if mode == "ASSESS" %}
+         <li><a href="{{display_img}}_raw.eps">The raw data (AUC)</a></li>
+         {% endif %}
+     </ul>
+     <li><a href="/static/files/{{ tf }}/{{ tf }}.meme">Raw {{ tf|capfirst }} motifs in meme format</a></li>
+
+ </ul>
+
+
+
+ </div>
+
+</div>
+{% endblock content %}
+
+
+
+</body>
