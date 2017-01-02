@@ -64,6 +64,8 @@ class AboutView(TemplateView):
 class DocumentationView(TemplateView):
     template_name = 'MATOM/documentation.html'
 
+class DownloadsView(TemplateView):
+    template_name = 'MATOM/downloads.html'
 
 class SearchView(AjaxableResponseMixin, FormView):
     form_class = SearchForm

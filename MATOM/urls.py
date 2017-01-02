@@ -14,6 +14,11 @@ urlpatterns = [
         view=views.DocumentationView.as_view(),
         name='documentation'
     ),
+    url(
+        regex=r'downloads/$',
+        view=views.DownloadsView.as_view(),
+        name='downloads'
+    ),
 
         url(
         regex=r'about/$',
