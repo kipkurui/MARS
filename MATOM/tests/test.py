@@ -7,7 +7,7 @@
 #
 # Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
 # into your database.
-from __future__ import unicode_literals
+
 
 from django.db import models
 
@@ -31,8 +31,8 @@ class TranscriptionFactor(models.Model):
         managed = False
         db_table = 'TRANSCRIPTION_FACTOR'
 
-    #def __unicode__(self):
-        #return self.alt_tf_name, self.tf_name
+    # def __unicode__(self):
+    # return self.alt_tf_name, self.tf_name
 
 
 class ChipSeq(models.Model):

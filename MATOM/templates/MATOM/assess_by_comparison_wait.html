@@ -12,8 +12,8 @@
 
     <title>MAT</title>
     <!-- meme css and js...currently just for testing purposes-->
-{# <link rel="shortcut icon" type="image/x-icon" href="http://meme-suite.org/doc/images/memesuite_icon.ico">#}
-{#    <link rel="icon" type="image/png" href="http://meme-suite.org/doc/images/memesuite_icon.png">#}>
+    {# <link rel="shortcut icon" type="image/x-icon" href="http://meme-suite.org/doc/images/memesuite_icon.ico">#}
+    {#    <link rel="icon" type="image/png" href="http://meme-suite.org/doc/images/memesuite_icon.png">#}>
 
 
     <!-- Bootstrap Core CSS -->
@@ -27,145 +27,148 @@
 
 </head>
 {% block headers %}
-<body>
+    <body>
 
-<!--nav bar header -->
+    <!--nav bar header -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          {% comment %}<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-              </button>
-{% endcomment %}
-          <a class="navbar-brand" href="/"> Motif Assessment Tools </a>
-
+        <div class="container">
+            <div class="navbar-header">
+                {% comment %}
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                {% endcomment %}
+                <a class="navbar-brand" href="/"> Motif Assessment Tools </a>
 
 
             </div>
-     {% comment %}   <div id="navbar" class="collapse navbar-collapse">
+            {% comment %}
+                <div id="navbar" class="collapse navbar-collapse">
 
 
-          <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
 
-          </ul>
+                    </ul>
 
-        </div><!--/.nav-collapse -->{% endcomment %}
-      </div>
+                </div><!--/.nav-collapse -->{% endcomment %}
+        </div>
     </nav>
 
-        <!-- Sidebar -->
+    <!-- Sidebar -->
 
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <br>
-                </li>
-                <li>
-                    <a href="/comparison">Assess by comparison</a>
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <br>
+            </li>
+            <li>
+                <a href="/comparison">Assess by comparison</a>
 
-                </li>
-                <li>
-                    <a href="/search">Search</a>
-                </li>
-                <li>
-                    <a href="#">Centrimo Test</a>
-                </li>
-                <li>
-                    <a href="/assess">Assess by score</a>
-                </li>
-                <li>
-                    <a href="#">plot</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-
-
-
-{% endblock headers%}
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-
-                    <div class="col-lg-9">
- {% block menu-button %}
-                        <br>
-                        <br>
- <ul class="pull-right" style="list-style-type:none">
-                                    <li  class="Toggle_button"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a></li>
-                                </ul>
-{% endblock menu-button %}
-
-    {% block content %}
-
-<div id="comparison_results">
-
-    <img src="/static/MATOM/img/loading_big.gif" />
-
+            </li>
+            <li>
+                <a href="/search">Search</a>
+            </li>
+            <li>
+                <a href="#">Centrimo Test</a>
+            </li>
+            <li>
+                <a href="/assess">Assess by score</a>
+            </li>
+            <li>
+                <a href="#">plot</a>
+            </li>
+        </ul>
     </div>
-     {%  endblock content %}
+    <!-- /#sidebar-wrapper -->
+
+
+
+{% endblock headers %}
+
+<!-- Page Content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-9">
+                {% block menu-button %}
+                    <br>
+                    <br>
+                    <ul class="pull-right" style="list-style-type:none">
+                        <li class="Toggle_button"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle
+                            Menu</a></li>
+                    </ul>
+                {% endblock menu-button %}
+
+                {% block content %}
+
+                    <div id="comparison_results">
+
+                        <img src="/static/MATOM/img/loading_big.gif"/>
 
                     </div>
+                {% endblock content %}
 
-                </div>
             </div>
+
         </div>
-        <!-- /#page-content-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
+</div>
+<!-- /#page-content-wrapper -->
 
-    <!-- jQuery -->
+</div>
+<!-- /#wrapper -->
 
-    <script src="{% static 'MATOM/js/jquery.js' %}"></script>
-    <script src="{% static 'MATOM/js/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'MATOM/js/sorttable.js' %}"></script>
+<!-- jQuery -->
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'MATOM/js/bootstrap.min.js' %}"></script>
-    <!--main.js -->
-    <script src="{% static 'MATOM/js/main.js' %}"></script>
-    <!-- Menu Toggle Script -->
-    <script>
-    $("#menu-toggle").click(function(e) {
+<script src="{% static 'MATOM/js/jquery.js' %}"></script>
+<script src="{% static 'MATOM/js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'MATOM/js/sorttable.js' %}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'MATOM/js/bootstrap.min.js' %}"></script>
+<!--main.js -->
+<script src="{% static 'MATOM/js/main.js' %}"></script>
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
-        //figuring out wha
+    //figuring out wha
 
-        $(document).ready(function() {
-    $("#menus").accordion({collapsible: true, active: false, heightStyle: "content"});
-});
-
-var mode = "{{ mode }}";
-var tf = "{{ tf }}";
-
-    $(document).ready(function() {
-        $.ajax({
-        url : "/ajax_comparison", // the endpoint
-        type : "POST", // http method
-        data : {
-            mode : mode,
-            tf : tf,
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-                            }
-         success : function(json) {
-            alert("we got here");
-            $('#post-text').val(''); // remove the value from the input
-            alert(json); // log the returned json to the console
-            console.log("success"); // another sanity check
-        }
-        // handle a successful response
+    $(document).ready(function () {
+        $("#menus").accordion({collapsible: true, active: false, heightStyle: "content"});
     });
-});
 
-    </script>
+    var mode = "{{ mode }}";
+    var tf = "{{ tf }}";
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/ajax_comparison", // the endpoint
+            type: "POST", // http method
+            data: {
+                mode: mode,
+                tf: tf,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            success: function (json) {
+                alert("we got here");
+                $('#post-text').val(''); // remove the value from the input
+                alert(json); // log the returned json to the console
+                console.log("success"); // another sanity check
+            }
+            // handle a successful response
+        });
+    });
+
+</script>
 
 </body>
 

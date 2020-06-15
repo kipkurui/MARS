@@ -26,7 +26,7 @@ def search_fun(request):
             entry_query = get_query(query_string, ['tf_name', 'alt_tf_name', ])
 
             found_entries = TranscriptionFactor.objects.filter(entry_query)
-            print found_entries
+            print(found_entries)
             if len(found_entries) > 0:
                 for items in found_entries:
                     if found_entries is not None:
@@ -58,11 +58,11 @@ class SearchView(AjaxableResponseMixin, FormView):
 
     @method_decorator(json_view)
     def get(self, request, *args, **kwargs):
-        print "This is our path"
+        print("This is our path")
         form = SearchForm(self.request.GET)
         #if self.request.method == 'GET':
         if request.is_ajax():
-            print "then here"
+            print("then here")
             #if form.is_valid():
 
             query_string = form.cleaned_data.get('search')
@@ -72,7 +72,7 @@ class SearchView(AjaxableResponseMixin, FormView):
             if len(found_entries) > 0:
                 for items in found_entries:
                     if found_entries is not None:
-                        print items.tf_id
+                        print(items.tf_id)
                         self.found_items.append(items.tf_name)
                         if items.alt_tf_name in self.found_items:
                             continue
@@ -101,7 +101,7 @@ class SearchView(AjaxableResponseMixin, FormView):
             'found_entries': self.found_items,
             'not_found': self.not_found,
         })
-        print context
+        print(context)
         
         return context
 
@@ -129,12 +129,12 @@ class SearchView2(FormMixin, ListView):
             query_string = form.cleaned_data.get('search')
             self.found_items = []  # empty found item s after each iteration
             entry_query = get_query(query_string, ['tf_name', 'alt_tf_name', ])
-            print entry_query
+            print(entry_query)
             found_entries = TranscriptionFactor.objects.filter(entry_query)
             if len(found_entries) > 0:
                 for items in found_entries:
                     if found_entries is not None:
-                        print items.tf_id
+                        print(items.tf_id)
                         self.found_items.append(items.tf_name)
                         if items.alt_tf_name in self.found_items:
                             continue

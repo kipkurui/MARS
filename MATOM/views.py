@@ -2,7 +2,6 @@ import glob
 import os
 
 from crispy_forms.utils import render_crispy_form
-from django.core.context_processors import csrf
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -11,18 +10,17 @@ from django.views.generic import FormView, TemplateView, View
 from jsonview.decorators import json_view
 from pylab import *
 
-import MARSTools.Assess_by_score
 import MATOM.models
-from MARSTools import Assess_by_score, Assess_by_score_pbm, motif_ic, run_gimme
-from MARSTools.run_centrimo import run_centrimo
-from MARSTools.run_fisim import run_fisim
-from MARSTools.run_tomtom import run_tomtom
-from MARSTools.utils import rotate_image
+from MARSTools.MARSTools import Assess_by_score, Assess_by_score_pbm, motif_ic, run_gimme
+from MARSTools.MARSTools.run_centrimo import run_centrimo
+from MARSTools.MARSTools.run_fisim import run_fisim
+from MARSTools.MARSTools.run_tomtom import run_tomtom
+from MARSTools.MARSTools.utils import rotate_image
 from MATOM import utils
 from MATOM.models import ChipSeq, Matrix, Pbm, run_get_meme, run_get_meme_id
 from MATOM.utils import meme_head, mkdir_p, get_path, meme_path, BASE_DIR, create_parameter_file, \
     combine_meme, handle_uploaded_bed, get_table, is_meme_uploaded, is_meme_pasted, get_parameter_dict
-from models import TranscriptionFactor, ChipData, PbmData
+from .models import TranscriptionFactor, ChipData, PbmData
 from search.forms import AssessByComparisonForm, AssessByScoreForm, AssessByEnrichmentForm, UnknownForm, SearchForm
 from search.search_code import *
 
@@ -79,11 +77,9 @@ class SearchView(AjaxableResponseMixin, FormView):
         # print "checking here"
         form = self.form_class(request.POST)
         if form.is_valid():
-
-            print "then here"
             # print request.FILES['uploaded_motif']
             query_string = request.POST.get('search')
-            #selected_project_id = query_string
+            # selected_project_id = query_string
 
             tf_details_dict = {
             }
@@ -138,7 +134,6 @@ class SearchView(AjaxableResponseMixin, FormView):
                     meme_out = '%s/temp.meme' % results_folder
 
                     with open(meme_out, "w") as out_file:
-                        print "Lets get mmeme"
                         out_file.write(meme_head)
 
                     run_get_meme_id(tf_class_id, meme_out)
@@ -190,7 +185,7 @@ class SearchView(AjaxableResponseMixin, FormView):
         ctx = {}
         ctx.update(csrf(request))
         form_html = render_crispy_form(form, context=ctx)
-        print "We got the form up and running"
+        print("We got the form up and running")
         return {'success': False, 'form_html': form_html}
 
 
@@ -216,7 +211,6 @@ class SearchResultsView(FormView):
     def post(self, request, *args, **kwargs):
         # print "checking here"
         form = self.form_class(request.POST)
-        print form.is_valid()
 
         # TODO: Assuming for now that the form is valid
 
@@ -263,15 +257,14 @@ class SearchResultsView(FormView):
 
         # Write  a function, that uses these data to get the summary information.
         results_folder = "%s/temp" % get_path()[0]
-        print results_folder
-
+        print(results_folder)
 
         if Tf_exists:
 
             meme_out = '%stemp.meme' % results_folder
 
             with open(meme_out, "w") as out_file:
-                print "Lets get mmeme"
+                print("Lets get mmeme")
                 out_file.write(meme_head)
 
             run_get_meme_id(tf_class_id, meme_out)
@@ -319,7 +312,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
         # print "checking here"
         form = self.form_class(request.POST, request.FILES)
         if request.is_ajax():
-            print "then here"
+            print("then here")
             # print request.FILES['uploaded_motif']
             tf = request.POST.get('tf').lower()
             score_method = request.POST.get("score")
@@ -332,10 +325,10 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
             if formats:
                 if formats == 'upload' and uploaded_motif is None:
                     formats = False
-                    print "Uploaded"
+                    print("Uploaded")
                 if formats == 'paste' and pasted_motif == "":
                     formats = False
-                    print "pasted"
+                    print("pasted")
             tf_exists = Matrix.objects.filter(motif_name=tf).exists()
             # pasted_motif is not u"" or uploaded_motif
             #print job_no
@@ -346,19 +339,19 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
 
                 if tf_exists or formats:
                     results_folder = static_files
-                    print "TF exists or formats"
+                    print("TF exists or formats")
                     motif_present_and_correct = self.handle_motifs(tf, pasted_motif, formats, results_folder, tf_exists)
-                    print motif_present_and_correct
+                    print(motif_present_and_correct)
 
                     if not motif_present_and_correct:
-                        print "Motif is all good"
+                        print("Motif is all good")
                         if tf_exists:
-                            print "and there is a TF"
+                            print("and there is a TF")
                             tf_class_id = MATOM.models.get_tf(tf)[0]
                             chipseq_exists = ChipSeq.objects.filter(tf_id=tf_class_id).exists()
 
                             if data == "ChIP-seq":
-                                print "So we got here"
+                                print("So we got here")
                                 chip_okay = self.process_chip(chipseq_exists, tf, results_folder)
                                 if not chipseq_exists and not chip_okay:
                                     meme_error = "NO_CHIP"
@@ -368,7 +361,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
 
                                         results_folder_path = '%s/%s' % (static_files, tf)
 
-                                        print results_folder_path
+                                        print(results_folder_path)
                                         user_motif = "%s/%s/%s.meme" % (static_files, tf, tf)
                                         files_path = '%s/%s/%s' % (results_folder, tf, tf)
 
@@ -406,14 +399,14 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
 
                                 pbm_exists = Pbm.objects.filter(tf_id=tf_class_id).exists()
                                 if pbm_exists:
-                                    print "We got to PBM"
+                                    print("We got to PBM")
                                     pbm_list = glob.glob('%s/Data/PBM/%s/*' % (BASE_DIR, tf.capitalize()))
                                     pbm_list_clean = []
                                     for pbms in pbm_list:
                                         if Assess_by_score_pbm.get_pbm_possitives(pbms) > 10:
                                             pbm_list_clean.append(pbms)
                                     if len(pbm_list_clean) > 0:
-                                        print "And pbm all good"
+                                        print("And pbm all good")
                                         user_motif = "%s/%s/%s.meme" % (static_files, tf, tf)
                                         results_folder_path = '%s/%s' % (static_files, tf)
 
@@ -450,7 +443,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
         #os.removedirs(self.static_files)
         if os.path.exists(static_files):
             import shutil
-            print "We had to delete"
+            print("We had to delete")
             shutil.rmtree(static_files)
         ctx = {}
         ctx.update(csrf(request))
@@ -465,11 +458,11 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
 
         meme_error = "MEME_ERROR"
         with open(meme_out, "w") as out_file:
-            print "Lets get mmeme"
+            print("Lets get mmeme")
             out_file.write(meme_head)
         motif_is_correct = False
         if tf_exists:
-            print "TF-exist in handle"
+            print("TF-exist in handle")
             tf_class_id = MATOM.models.get_tf(tf)[0]
             if tf_class_id is not None:
                 motif_is_correct = True
@@ -477,7 +470,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
             else:
                 meme_error = "NO_TFID"
         if formats:
-            print "passed formats"
+            print("passed formats")
             if formats == "paste":
                 motif_is_correct = is_meme_pasted(user_motif, results_folder)[0]
                 if motif_is_correct:
@@ -489,7 +482,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
         else:
             meme_error = ""
         if motif_is_correct:
-            print "And motif was okay"
+            print("And motif was okay")
             if open(meme_out).read().count("MOTIF") < 3:
                 meme_error = "FEW_MOTIFS"
             else:
@@ -575,10 +568,10 @@ class AssessByComparisonView(AssessByScoreView):
         #static_files = self.static_files
         if request.method == 'POST':
             meme_error = None
-            print "pased here"
+            print("pased here")
             form = self.form_class(request.POST, request.FILES)
             if request.is_ajax():
-                print "This is ajax"
+                print("This is ajax")
                 mode = request.POST.get('mode')
                 tf = request.POST.get('tf')
                 formats = request.POST.get('formats')
@@ -586,14 +579,14 @@ class AssessByComparisonView(AssessByScoreView):
 
                 uploaded_motif = self.request.FILES.get('uploaded_motif')
                 tf_exists = Matrix.objects.filter(motif_name=tf).exists()
-                print formats
+                print(formats)
                 if formats:
                     if formats == 'upload' and uploaded_motif is None:
                         formats = False
-                        print "Uploaded"
+                        print("Uploaded")
                     if formats == 'paste' and pasted_motif == "":
                         formats = False
-                        print "pasted"
+                        print("pasted")
                 # Ensure some form of motif has been entered by the user
                 # pasted_motif is not u"" or uploaded_motif
                 if tf != "":
@@ -665,7 +658,7 @@ class AssessByEnrichmentView(AssessByScoreView):
         form = self.form_class(request.POST, request.FILES)
         meme_error = None
         if request.is_ajax():
-            print "We got here "
+            print("We got here ")
             mode = request.POST.get('mode')
             tf = request.POST.get('tf').lower()
             pasted_motif = request.POST.get('test_motif')
@@ -674,10 +667,10 @@ class AssessByEnrichmentView(AssessByScoreView):
             if formats:
                 if formats == 'upload' and uploaded_motif is None:
                     formats = False
-                    print "Uploaded"
+                    print("Uploaded")
                 if formats == 'paste' and pasted_motif == "":
                     formats = False
-                    print "pasted"
+                    print("pasted")
             uploaded_chip = self.request.FILES.get('uploaded_chipseq')
             tf_exists = Matrix.objects.filter(motif_name=tf).exists()
 
@@ -785,7 +778,7 @@ class GetResultsScore(View):
     def get(self, request, slug, *args, **kwargs):
 
         job_no = request.path_info.split("job")[-1]
-        print job_no
+        print(job_no)
 
         results_folder = "%s/score/%s" % (get_path()[0], str(job_no))
         par_name = "%s/parameter_file" % results_folder

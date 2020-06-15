@@ -2,177 +2,194 @@
 {% load staticfiles %}
 
 {% block content %}
-       <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Documentation: <small>MARS tutorial</small>
-                        </h1>
-                    </div>
-                </div>
-<section class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Documentation: <small>MARS tutorial</small>
+            </h1>
+        </div>
+    </div>
+    <section class="container">
         <div class="ac">
 
-                  <input class="ac-input" id="ac-1" name="ac-1" type="checkbox" />
+            <input class="ac-input" id="ac-1" name="ac-1" type="checkbox"/>
             <label class="ac-label" for="ac-1">Select the appropriate tool</label>
 
             <article class="ac-text">
 
 
-            <p>This documentation provides a guide of how to optimally utilize the tools provided in this web server.
-            MARS is set-up specifically for the users interested in obtaining rank information the motifs available in 
-                the database, as well as to rank motif determine the performance of their own motif. </p>
+                <p>This documentation provides a guide of how to optimally utilize the tools provided in this web
+                    server.
+                    MARS is set-up specifically for the users interested in obtaining rank information the motifs
+                    available in 
+                    the database, as well as to rank motif determine the performance of their own motif. </p>
 
                 <p> The minimum required information is a transcription factor name to retrieve ranked motifs.
-            For each tool, the default parameters should provide the best results. Use the decision diagram
+                    For each tool, the default parameters should provide the best results. Use the decision diagram
                     below to choose the appropriate tool for your task.</p>
                 <br>
 
-                <img style="margin:10px auto;display:block" src="/static/MATOM/img/decision_tree.jpg" alt="My image" class="img-responsive" height="500" width="700"/>
+                <img style="margin:10px auto;display:block" src="/static/MATOM/img/decision_tree.jpg" alt="My image"
+                     class="img-responsive" height="500" width="700"/>
             </article>
 
 
         </div><!--/ac-->
 
 
-    <div class="ac">
-          <input class="ac-input" id="ac-2" name="ac-2" type="checkbox" />
+        <div class="ac">
+            <input class="ac-input" id="ac-2" name="ac-2" type="checkbox"/>
             <label class="ac-label" for="ac-2">Available tools</label>
 
-        <article class="ac-text">
-            <div class="ac-sub">
-                 <input class="ac-input" id="ac-7" name="ac-7" type="checkbox" />
-                <h4><label class="ac-label" for="ac-7">CB-MAR: Consistency-Based Motif Assessment and Ranking</label></h4>
-                  <article class="ac-sub-text">
+            <article class="ac-text">
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-7" name="ac-7" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-7">CB-MAR: Consistency-Based Motif Assessment and
+                        Ranking</label></h4>
+                    <article class="ac-sub-text">
 
-                            <p> This is a data independent  approach, which uses the principle of consistency to determine
-                                the quality and rank the available motifs. We employ two motif assessment techniques to achieve this.</p>
-                            <ul>
+                        <p> This is a data independent  approach, which uses the principle of consistency to determine
+                            the quality and rank the available motifs. We employ two motif assessment techniques
+                            to achieve this.</p>
+                        <ul>
                             <li><b>Tomtom</b>: This is the default and has been shown to provide the best results.</li>
 
                             <li><b>FISim:</b> An alternative approach implemented</li>
-                            </ul>
+                        </ul>
 
-                            <p>The results are formatted as follows</p>
-                      <img style="margin:10px auto;display:block"  src="/static/MATOM/img/compare.jpg" alt="My image" class="img-responsive"/>
+                        <p>The results are formatted as follows</p>
+                        <img style="margin:10px auto;display:block" src="/static/MATOM/img/compare.jpg" alt="My image"
+                             class="img-responsive"/>
                     </article>
-            </div>
-                  <div class="ac-sub">
-                        <input class="ac-input" id="ac-5" name="ac-5" type="checkbox" />
-                        <h4><label class="ac-label" for="ac-5">Assess by score:</label></h4>
-                        <article class="ac-sub-text">
-                <p> Motifs are used to score positive and negative sequences and the quality and ranks of
-                the motifs determined by AUC, MNCP and correlation statistics. This approach implements a number of
-                scoring functions. Follow link for more details on these techniques. In the approach the user has to
-                make the following choices</p>
-            <ol>
-                <li>Provide a TF name (Required). This can be the only details needed for a complete analysis, if the corresponding data are available <b>(1)</b></li>
-                <li>Do you want to rank your own motif against the available motifs? 
-            <ul>
-                <li>Then paste or upload motif in meme format <b>(1)</b>
-                </li></ul></li><li>Choose the experimental evidence to use, each allows one to upload own data:
-            <ol><li>ChIP-seq data</li>
-                <li>PBM data</li>
-            </ol>
-            </li>
-            <li>Select the scoring function to use. </li>
-            <li>Run the analysis and wait for the results</li>
-    <img style="margin:10px auto;display:block"  src="/static/MATOM/img/score.jpg" type="image/jpeg" style="height: auto;"/>
+                </div>
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-5" name="ac-5" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-5">Assess by score:</label></h4>
+                    <article class="ac-sub-text">
+                        <p> Motifs are used to score positive and negative sequences and the quality and ranks of
+                            the motifs determined by AUC, MNCP and correlation statistics. This approach implements a
+                            number of
+                            scoring functions. Follow link for more details on these techniques. In the approach the
+                            user has to
+                            make the following choices</p>
+                        <ol>
+                            <li>Provide a TF name (Required). This can be the only details needed for a
+                                complete analysis, if the corresponding data are available <b>(1)</b></li>
+                            <li>Do you want to rank your own motif against the available motifs? 
+                                <ul>
+                                    <li>Then paste or upload motif in meme format <b>(1)</b>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Choose the experimental evidence to use, each allows one to upload own data:
+                                <ol>
+                                    <li>ChIP-seq data</li>
+                                    <li>PBM data</li>
+                                </ol>
+                            </li>
+                            <li>Select the scoring function to use. </li>
+                            <li>Run the analysis and wait for the results</li>
+                            <img style="margin:10px auto;display:block" src="/static/MATOM/img/score.jpg"
+                                 type="image/jpeg" style="height: auto;"/>
 
-            </ol>
+                        </ol>
 
-                        </article>
-                  </div>
+                    </article>
+                </div>
 
-                  <div class="ac-sub">
-                        <input class="ac-input" id="ac-6" name="ac-6" type="checkbox" />
-                        <h4><label class="ac-label" for="ac-6">Assess by enrichment</label></h4>
-                        <article class="ac-sub-text">
-                            <ol>
-                                <li>Choose enrichment technique to use</li>
-                                <li>Enter TF name</li>
-                                <li>Upload or paste motifs if need be</li>
-                                <li>Uploaded own benchmark data</li>
-                                <li>Run analysis and wait for results</li>
-                            </ol>
-                            <img style="margin:10px auto;display:block"  src="/static/MATOM/img/enrichment.jpg" type="image/jpeg" style="height: auto;"/>
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-6" name="ac-6" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-6">Assess by enrichment</label></h4>
+                    <article class="ac-sub-text">
+                        <ol>
+                            <li>Choose enrichment technique to use</li>
+                            <li>Enter TF name</li>
+                            <li>Upload or paste motifs if need be</li>
+                            <li>Uploaded own benchmark data</li>
+                            <li>Run analysis and wait for results</li>
+                        </ol>
+                        <img style="margin:10px auto;display:block" src="/static/MATOM/img/enrichment.jpg"
+                             type="image/jpeg" style="height: auto;"/>
 
-                        </article>
-                  </div>
+                    </article>
+                </div>
 
 
-          </article>
-         </div>
+            </article>
+        </div>
 
-    <div class="ac">
+        <div class="ac">
 
-                  <input class="ac-input" id="ac-3" name="ac-3" type="checkbox" />
+            <input class="ac-input" id="ac-3" name="ac-3" type="checkbox"/>
             <label class="ac-label" for="ac-3">MARS Utility</label>
 
             <article class="ac-text">
                 <p> The process of motif assessment can be summarized as
-    (1) User uploads a motif in MEME format and enters its TF name.
-    (2) Motifs and test sequences linked to the TF are extracted from the database.
-    (3) Motifs can be ranked, by comparison, used to score test sequences (rank by score)
-    or its enrichment determined using CentriMo (rank by enrichment). (4)
-    The results are visualized interactively, (5) with additional information like motif length,
-    Information content and logo. The cluster-gram offers additional information on the motif or test
-    data clustering. In the end, the user can download ranked motifs in MEME format, as well as
-    raw data for further analysis. </p>
+                    (1) User uploads a motif in MEME format and enters its TF name.
+                    (2) Motifs and test sequences linked to the TF are extracted from the database.
+                    (3) Motifs can be ranked, by comparison, used to score test sequences (rank by score)
+                    or its enrichment determined using CentriMo (rank by enrichment). (4)
+                    The results are visualized interactively, (5) with additional information like motif length,
+                    Information content and logo. The cluster-gram offers additional information on the motif or test
+                    data clustering. In the end, the user can download ranked motifs in MEME format, as well as
+                    raw data for further analysis. </p>
 
-                <img style="margin:10px auto;display:block" src="/static/MATOM/img/flow.png" alt="My image" class="img-responsive" height="700" width="1000"/>
+                <img style="margin:10px auto;display:block" src="/static/MATOM/img/flow.png" alt="My image"
+                     class="img-responsive" height="700" width="1000"/>
             </article>
 
 
         </div><!--/ac-->
 
-    <div class="ac">
-                  <input class="ac-input" id="ac-4" name="ac-4" type="checkbox" />
+        <div class="ac">
+            <input class="ac-input" id="ac-4" name="ac-4" type="checkbox"/>
             <label class="ac-label" for="ac-4">Hosted data</label>
 
-        <article class="ac-text">
-            <div class="ac-sub">
-                 <input class="ac-input" id="ac-8" name="ac-8" type="checkbox" />
-                <h4><label class="ac-label" for="ac-8">PWM motifs</label></h4>
-                  <article class="ac-sub-text">
+            <article class="ac-text">
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-8" name="ac-8" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-8">PWM motifs</label></h4>
+                    <article class="ac-sub-text">
 
-                            <p> We use as input <a href="http://meme-suite.org/doc/meme-format.html?man_type=web"> meme formatted motifs </a>. However, we do provide scripts that can convert
-                                motif available in other formats to meme.</p>
+                        <p> We use as input <a href="http://meme-suite.org/doc/meme-format.html?man_type=web"> meme
+                            formatted motifs </a>. However, we do provide scripts that can convert
+                            motif available in other formats to meme.</p>
                     </article>
-            </div>
+                </div>
 
-            <div class="ac-sub">
-                 <input class="ac-input" id="ac-9" name="ac-9" type="checkbox" />
-                <h4><label class="ac-label" for="ac-9">ChIP-seq data</label></h4>
-                  <article class="ac-sub-text">
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-9" name="ac-9" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-9">ChIP-seq data</label></h4>
+                    <article class="ac-sub-text">
 
-                            <p>We accept sequences in bed and narrow peak formats.
-                                The negative sequences are obtained from hg19 human genome.</p>
+                        <p>We accept sequences in bed and narrow peak formats.
+                            The negative sequences are obtained from hg19 human genome.</p>
                     </article>
-            </div>
+                </div>
 
 
-            <div class="ac-sub">
-                 <input class="ac-input" id="ac-10" name="ac-10" type="checkbox" />
-                <h4><label class="ac-label" for="ac-10">PBM data</label></h4>
-                  <article class="ac-sub-text">
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-10" name="ac-10" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-10">PBM data</label></h4>
+                    <article class="ac-sub-text">
 
-                            <p>We accept an upload of protein binding micro-array intensity data.</p>
+                        <p>We accept an upload of protein binding micro-array intensity data.</p>
                     </article>
-            </div>
-            <div class="ac-sub">
-                 <input class="ac-input" id="ac-11" name="ac-11" type="checkbox" />
-                <h4><label class="ac-label" for="ac-11">Others</label></h4>
-                  <article class="ac-sub-text">
+                </div>
+                <div class="ac-sub">
+                    <input class="ac-input" id="ac-11" name="ac-11" type="checkbox"/>
+                    <h4><label class="ac-label" for="ac-11">Others</label></h4>
+                    <article class="ac-sub-text">
 
-                            <p>We plan to include more benchmark data. Please let us know if there are data you require,
-                                and we'll do our best to include them.</p>
+                        <p>We plan to include more benchmark data. Please let us know if there are data you require,
+                            and we'll do our best to include them.</p>
                     </article>
-            </div>
+                </div>
 
-        </article>
+            </article>
 
 
-    </div>
+        </div>
 
     </section>
 {% endblock %}

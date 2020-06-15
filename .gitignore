@@ -47,4 +47,4 @@ MARSTools
 
 
  #git filter-branch --tree-filter 'rm -f hg19.fa' HEAD
- # git rm --cached Data/hg19.fa
+ # git rm --cached git Data/hg19.fa

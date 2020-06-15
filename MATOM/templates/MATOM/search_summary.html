@@ -2,123 +2,125 @@
 {% load staticfiles %}
 
 {% block content %}
-       <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Summary: <small>Benchmark data in database</small>
-                        </h1>
-                    </div>
-                </div>
-<div id="menus">
-
-<h3 id="assess table">Details of available motifs</h3>
-
-  <div id="table">
-    <div class="formattable" >
-    <table id="myTable" class="sortable">
-    <thead>
-{#<p style="text-align: center; color: red">Click on the table headers to sort</p>#}
-    <tr>
-    {%  for th in t_head %}
-        <th>{{ th }}</th>
-    {% endfor %}
-
-    </tr>
-</thead>
-<tbody>
-        {%  for motifs in t_body %}
-            <tr>
-            {%  for motif in motifs %}
-                <td>{{ motif |safe }}</td>
-            {% endfor %}
-
-           </tr>
-            {% empty %}
-    <li>No data in database</li>
-        {% endfor %}
-    </tbody>
-    </table>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Summary: <small>Benchmark data in database</small>
+            </h1>
+        </div>
     </div>
-  </div>
+    <div id="menus">
 
-<h3>Details of available ChIP_seq data</h3>
+        <h3 id="assess table">Details of available motifs</h3>
 
-  <div id="table">
-    <div class="formattable" >
-    <table id="myTable" class="sortable">
-    <thead>
-    <tr>
-{#    {%  for th in t_head %}#}
-{#        <th>{{ th }}</th>#}
-        <th>Raw file</th>
-        <th>Cell line</th>
-        <th>Lab</th>
+        <div id="table">
+            <div class="formattable">
+                <table id="myTable" class="sortable">
+                    <thead>
+                    {#<p style="text-align: center; color: red">Click on the table headers to sort</p>#}
+                    <tr>
+                        {% for th in t_head %}
+                            <th>{{ th }}</th>
+                        {% endfor %}
 
-{#    {% endfor %}#}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for motifs in t_body %}
+                        <tr>
+                            {% for motif in motifs %}
+                                <td>{{ motif |safe }}</td>
+                            {% endfor %}
 
-    </tr>
-</thead>
+                        </tr>
+                        {% empty %}
+                        <li>No data in database</li>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-<tbody>
-        {%  for motifs in chip_summary %}
-            <tr>
+        <h3>Details of available ChIP_seq data</h3>
 
-            {%  for motif in motifs %}
-                <td>{{ motif |safe }}</td>
+        <div id="table">
+            <div class="formattable">
+                <table id="myTable" class="sortable">
+                    <thead>
+                    <tr>
+                        {#    {%  for th in t_head %}#}
+                        {#        <th>{{ th }}</th>#}
+                        <th>Raw file</th>
+                        <th>Cell line</th>
+                        <th>Lab</th>
+
+                        {#    {% endfor %}#}
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for motifs in chip_summary %}
+                        <tr>
+
+                            {% for motif in motifs %}
+                                <td>{{ motif |safe }}</td>
+                            {% endfor %}
+
+                        </tr>
+                        {% empty %}
+                        <li>No data in database</li>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h3>Details of available PBM data</h3>
+
+        {#  <div id="table">#}
+        {#    <div class="formattable" >#}
+        {#    <table id="myTable" class="sortable">#}
+        {#    <thead>#}
+        {#    <tr>#}
+        {#    {%  for th in t_head %}#}
+        {#        <th>{{ th }}</th>#}
+        {#        <th>Raw file</th>#}
+        {#        <th>Cell line</th>#}
+        {#        <th>Lab</th>#}
+        {##}
+        {#    {% endfor %}#}
+        {##}
+        {#    </tr>#}
+        {#</thead>#}
+        {##}
+        {#<tbody>#}
+        <div>
+
+            {% for motifs in pbm_summary %}
+                <ul>
+
+                    {% for motif in motifs %}
+                        <li>{{ motif |safe }}</li>
+                    {% endfor %}
+
+                </ul>
+                {% empty %}
+                <li>No data in database</li>
             {% endfor %}
+        </div>
 
-           </tr>
-        {% empty %}
-    <li>No data in database</li>
-        {% endfor %}
-    </tbody>
-    </table>
+        <h3>Download available motifs</h3>
+
+        <div>
+
+            <ul class="fa-ul">
+
+                <li><a href="http://www.bioinf.ict.ru.ac.za/static/files/temp/temp.meme"><i class="fa fa-download"
+                                                                                            aria-hidden="true"></i>Download
+                    available motifs in MEME format</a></li>
+
+            </ul>
+        </div>
     </div>
-  </div>
-
-<h3>Details of available PBM data</h3>
-
-{#  <div id="table">#}
-{#    <div class="formattable" >#}
-{#    <table id="myTable" class="sortable">#}
-{#    <thead>#}
-{#    <tr>#}
-{#    {%  for th in t_head %}#}
-{#        <th>{{ th }}</th>#}
-{#        <th>Raw file</th>#}
-{#        <th>Cell line</th>#}
-{#        <th>Lab</th>#}
-{##}
-{#    {% endfor %}#}
-{##}
-{#    </tr>#}
-{#</thead>#}
-{##}
-{#<tbody>#}
-<div>
-
-       {%  for motifs in pbm_summary %}
-            <ul>
-
-            {%  for motif in motifs %}
-                <li>{{ motif |safe }}</li>
-            {% endfor %}
-
-           </ul>
-        {% empty %}
-    <li>No data in database</li>
-        {% endfor %}
-    </div>
-
-<h3>Download available motifs</h3>
-
-<div>
-	
-	<ul class="fa-ul">
-
-      <li> <a href="http://www.bioinf.ict.ru.ac.za/static/files/temp/temp.meme"><i class="fa fa-download" aria-hidden="true"></i>Download available motifs in MEME format</a> </li>
-
-     </ul>
-</div>
-  </div>
 {% endblock %}

@@ -1,8 +1,6 @@
 from django.conf.urls import url
 
 from MATOM import views
-from search import views as search_views
-
 
 urlpatterns = [
     url(
@@ -20,7 +18,7 @@ urlpatterns = [
         name='downloads'
     ),
 
-        url(
+    url(
         regex=r'about/$',
         view=views.AboutView.as_view(),
         name='about'

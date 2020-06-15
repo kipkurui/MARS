@@ -42,7 +42,7 @@ def extract_meme(meme_in, motif, meme_out, raw_dict):
                         for j in range(0, (int(odds[5]))):
                             out_meme.write(lines[i + 3 + j])
                     else:
-                        print"No data"
+                        print("No data")
 
 
 def get_dict(raw_file):
@@ -66,18 +66,18 @@ def get_dict_assess(raw_file, sort_by):
     with open(raw_file) as raw_in:
         for line in raw_in:
             test_d[line.split()[0]] = line.split()[pos]
-    raw_dict = OrderedDict(sorted(test_d.items(), key=itemgetter(1), reverse=True))
+    raw_dict = OrderedDict(sorted(list(test_d.items()), key=itemgetter(1), reverse=True))
     return raw_dict
 
 
 def extract_scored_meme(meme_in, out_meme, raw_dict):
-    print "And finally to extract meme"
+    print("And finally to extract meme")
     meme_head = """MEME version 4.4\n\nALPHABET= ACGT\n\nstrands: + -\n
     Background letter frequencies (from uniform background):
     A 0.25000 C 0.25000 G 0.25000 T 0.25000\n"""
     with open(out_meme, "w") as meme_out:
         meme_out.write(meme_head)
-    for key in raw_dict.iterkeys():
+    for key in list(raw_dict.keys()):
         extract_meme(meme_in, key, out_meme, raw_dict)
 
 
@@ -146,7 +146,7 @@ def get_path(method=""):
         static_file = '%s/MATOM/static/files/%s' % (BASE_DIR, method)
         meme_path = "%s/meme/bin" % home
     else:
-        home = '/home/caleb'
+        home = '/Users/ckibet'
         static_file = '%s/www/MARS/static/files/%s' % (home, method)
         meme_path = "%s/anaconda2/envs/MARS/bin" % home
 
@@ -155,7 +155,7 @@ def get_path(method=""):
 
             file_list = os.listdir(static_file)
 
-            file_list = map(int, file_list)
+            file_list = list(map(int, file_list))
             file_list.sort()
         else:
             mkdir_p(static_file)
@@ -289,7 +289,7 @@ def is_bed(a):
 
     """
     import types
-    number_types = (types.IntType, types.LongType, types.FloatType, types.ComplexType)
+    number_types = (int, int, float, complex)
     try:
         return isinstance(float(a), number_types)
     except Exception:
