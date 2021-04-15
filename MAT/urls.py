@@ -15,18 +15,24 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+#from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView
 from django.conf import settings
 from django.conf.urls.static import static
+import debug_toolbar
+
 admin.autodiscover()
+from MATOM import urls
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('MATOM.urls', namespace='matom')),
+    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
+    url(r'^', include('MATOM.urls')),
     #url(r'^search/$', 'search.SearchView'),
-    url(r'^accounts/login/$', auth_views.login),
-
+    url(r'^accounts/login/$', LoginView.as_view()),
+    url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

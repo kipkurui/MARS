@@ -2,59 +2,75 @@
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-#
-# Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
-# into your database.
-
+from __future__ import unicode_literals
 
 from django.db import models
 
 
-class TfClass(models.Model):
-    tf_class_id = models.CharField(db_column='TF_CLASS_ID', primary_key=True, max_length=45)
-    tf_class = models.CharField(db_column='TF_CLASS', max_length=45, blank=True, null=True)
+class ChipData(models.Model):
+    chip_data_id = models.IntegerField(db_column='ChIP_Data_ID', primary_key=True)  # Field name made lowercase.
+    chip = models.ForeignKey('ChipSeq', models.DO_NOTHING, db_column='ChIP_ID', blank=True,
+                             null=True)  # Field name made lowercase.
+    raw = models.CharField(db_column='Raw', max_length=250, blank=True, null=True)  # Field name made lowercase.
+    at_100 = models.CharField(db_column='AT_100', max_length=250, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'TF_CLASS'
-
-
-class TranscriptionFactor(models.Model):
-    tf_id = models.CharField(db_column='TF_ID', primary_key=True, max_length=45)
-    tf_name = models.CharField(db_column='TF_NAME', max_length=45, blank=True, null=True)
-    alt_tf_name = models.CharField(db_column='ALT_TF_NAME', max_length=45, blank=True, null=True)
-    tf_class_id = models.ForeignKey(TfClass, db_column='TF_CLASS_ID')
-
-    class Meta:
-        managed = False
-        db_table = 'TRANSCRIPTION_FACTOR'
-
-    #def __unicode__(self):
-        #return self.alt_tf_name, self.tf_name
+        db_table = 'ChIP_Data'
 
 
 class ChipSeq(models.Model):
-    chip_id = models.IntegerField(db_column='CHIP_ID', primary_key=True)
-    tf_name = models.CharField(db_column='TF_NAME', max_length=45, blank=True, null=True)
-    tf_id = models.ForeignKey('TranscriptionFactor', db_column='TF_ID', blank=True, null=True)
-    database = models.CharField(db_column='DATABASE', max_length=45, blank=True, null=True)
+    chip_id = models.IntegerField(db_column='ChIP_ID', primary_key=True)  # Field name made lowercase.
+    tf_name = models.CharField(db_column='TF_Name', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    tf = models.ForeignKey('TranscriptionFactor', models.DO_NOTHING, db_column='TF_ID', blank=True,
+                           null=True)  # Field name made lowercase.
+    database = models.CharField(db_column='Database', max_length=45, blank=True,
+                                null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'CHIP_SEQ'
+        db_table = 'ChIP_Seq'
 
 
-class ChipData(models.Model):
-    id = models.IntegerField(db_column='ID', primary_key=True) 
-    chip_id = models.ForeignKey('ChipSeq', db_column='CHIP_ID', blank=True, null=True) 
-    raw = models.CharField(db_column='RAW', max_length=200, blank=True, null=True) 
-    at_100 = models.CharField(db_column='AT_100', max_length=200, blank=True, null=True) 
+class MatrixData(models.Model):
+    matrix_id = models.AutoField(db_column='Matrix_ID', primary_key=True)  # Field name made lowercase.
+    motif = models.ForeignKey('Motif', models.DO_NOTHING, db_column='Motif_ID')  # Field name made lowercase.
+    col = models.CharField(db_column='Col', max_length=2)  # Field name made lowercase.
+    row = models.IntegerField(db_column='Row')  # Field name made lowercase.
+    val = models.FloatField(db_column='VAL', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'CHIP_DATA'
+        db_table = 'Matrix_Data'
+        unique_together = (('matrix_id', 'motif', 'col', 'row'),)
+
+
+class Motif(models.Model):
+    motif_id = models.IntegerField(db_column='Motif_ID', primary_key=True)  # Field name made lowercase.
+    motif_coll_id = models.CharField(db_column='Motif_coll_ID', max_length=100, blank=True,
+                                     null=True)  # Field name made lowercase.
+    motif_name = models.CharField(db_column='Motif_Name', max_length=45, blank=True,
+                                  null=True)  # Field name made lowercase.
+    collection_db = models.CharField(db_column='Collection_DB', max_length=45, blank=True,
+                                     null=True)  # Field name made lowercase.
+    tf_id = models.CharField(db_column='TF_ID', max_length=45, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Motif'
+
+
+class Organism(models.Model):
+    taxonomic_id = models.IntegerField(db_column='Taxonomic_ID', primary_key=True)  # Field name made lowercase.
+    identity = models.CharField(db_column='Identity', max_length=45)  # Field name made lowercase.
+    scientific_name = models.CharField(db_column='Scientific_Name', max_length=60)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Organism'
 
 
 class Pbm(models.Model):
@@ -68,61 +84,128 @@ class Pbm(models.Model):
 
 
 class PbmData(models.Model):
-    id = models.IntegerField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    pbm = models.ForeignKey(Pbm, db_column='PBM_ID')  # Field name made lowercase.
-    pbm_debru = models.CharField(db_column='PBM_DEBRU', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    pbm_data_id = models.IntegerField(db_column='PBM_Data_ID', primary_key=True)  # Field name made lowercase.
+    pbm_id = models.IntegerField(db_column='PBM_ID')  # Field name made lowercase.
+    pbm_debru = models.CharField(db_column='PBM_DEBRU', max_length=45, blank=True,
+                                 null=True)  # Field name made lowercase.
     source = models.CharField(db_column='SOURCE', max_length=45, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'PBM_DATA'
+        db_table = 'PBM_Data'
 
 
-class Publications(models.Model):
-    pub_id = models.IntegerField(db_column='PUB_ID', primary_key=True) 
-    small_ref = models.CharField(db_column='SMALL_REF', max_length=45, blank=True, null=True) 
-    full_ref = models.CharField(db_column='FULL_REF', max_length=45, blank=True, null=True) 
-
-    class Meta:
-        managed = False
-        db_table = 'PUBLICATIONS'
-
-
-class UrlTab(models.Model):
-    link_id = models.IntegerField(db_column='LINK_ID', primary_key=True) 
-    url = models.CharField(db_column='URL', max_length=200, blank=True, null=True) 
+class TfClass(models.Model):
+    tf_class_id = models.CharField(db_column='TF_Class_ID', primary_key=True,
+                                   max_length=45)  # Field name made lowercase.
+    tf_class = models.CharField(db_column='TF_Class', max_length=150, blank=True,
+                                null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'URL_TAB'
+        db_table = 'TF_Class'
 
 
-class Matrix(models.Model):
-    id = models.IntegerField(db_column='ID', primary_key=True)
-    motif_id = models.CharField(db_column='MOTIF_ID', max_length=45, blank=True, null=True) 
-    motif_name = models.CharField(db_column='MOTIF_NAME', max_length=100, blank=True, null=True) 
-    tf_id = models.ForeignKey('TranscriptionFactor', db_column='TF_ID', blank=True, null=True)
-    collection = models.CharField(db_column='COLLECTION', max_length=45, blank=True, null=True) 
-    link_id = models.ForeignKey('UrlTab', db_column='LINK_ID', blank=True, null=True) 
-    type = models.CharField(db_column='TYPE', max_length=45, blank=True, null=True) 
-    pub_id = models.ForeignKey('Publications', db_column='PUB_ID', blank=True, null=True) 
+class TranscriptionFactor(models.Model):
+    tf_id = models.CharField(db_column='TF_ID', primary_key=True, max_length=45)  # Field name made lowercase.
+    tf_name = models.CharField(db_column='TF_Name', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    alt_tf_name = models.CharField(db_column='Alt_TF_Name', max_length=150, blank=True,
+                                   null=True)  # Field name made lowercase.
+    tf_class_id = models.CharField(db_column='TF_Class_ID', max_length=15)  # Field name made lowercase.
+    taxonomic_id = models.IntegerField(db_column='Taxonomic_ID')  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'MATRIX'
+        db_table = 'Transcription_Factor'
 
 
-class MatrixData(models.Model):
-    id = models.IntegerField(db_column='ID', primary_key=True)
-    matrix_id = models.ForeignKey(Matrix, db_column='MATRIX_ID')
-    row = models.CharField(db_column='ROW', max_length=45) 
-    col = models.IntegerField(db_column='COL') 
-    val = models.FloatField(db_column='VAL', blank=True, null=True) 
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=80)
 
     class Meta:
         managed = False
-        db_table = 'MATRIX_DATA'
-        unique_together = (('matrix_id', 'row', 'col'),)
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
 
 
 class DjangoMigrations(models.Model):
@@ -135,12 +218,15 @@ class DjangoMigrations(models.Model):
         db_table = 'django_migrations'
 
 
-class Jobs(models.Model):
-    job_no = models.IntegerField(primary_key=True)
-    mode = models.CharField(max_length=45)
-    tf_name = models.CharField(max_length=45)
-    score_method = models.CharField(max_length=45)
-    date_created = models.DateField()
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
 
 ###############################################################################
 #                   Query code
@@ -163,9 +249,10 @@ def run_get_meme(tf, out):
     :return: Writes to file
     """
     with open(out, 'a') as meme_out:
-        tf_class = Matrix.objects.filter(motif_name=tf)[0].tf_id_id
-        motifs = Matrix.objects.filter(tf_id=tf_class)
+        tf_class = Motif.objects.filter(motif_name=tf)[0].tf_id
+        motifs = Motif.objects.filter(tf_id=tf_class)
         for i in motifs:
+            #print(i.motif_coll_id)
             get_meme(i, meme_out)
         meme_out.write("\n")
 
@@ -178,7 +265,7 @@ def run_get_meme_id(tf_class, out):
     :return: Writes to file
     """
     with open(out, 'a') as meme_out:
-        motifs = Matrix.objects.filter(tf_id=tf_class)
+        motifs = Motif.objects.filter(tf_id=tf_class)
         for i in motifs:
             get_meme(i, meme_out)
         meme_out.write("\n")
@@ -186,34 +273,37 @@ def run_get_meme_id(tf_class, out):
 
 def get_tf(tf):
     # TODO: Picking the first one with assumption it is correct?
-    tf_class = Matrix.objects.filter(motif_name=tf)[0].tf_id_id
-    motifs = Matrix.objects.filter(tf_id=tf_class)
-    #tf_class_id = motifs[0].tf_id_id
+    tf_class = Motif.objects.filter(motif_name=tf)[0].tf_id
+    motifs = Motif.objects.filter(tf_id=tf_class)
+    # tf_class_id = motifs[0].tf_id_id
     return tf_class, motifs
 
 
 def get_meme(ids, out):
-    data = MatrixData.objects.filter(matrix_id=ids.id)
+    print(ids.motif_id)
+    data = MatrixData.objects.all().filter(motif_id=ids.motif_id)
     a = []
     c = []
     g = []
     t = []
-
+    #print(len(data))
     for r in range(len(data)):
-        if data[r].row == "A":
+        #print(data[r].val)
+        if data[r].col == "A":
             a.append(data[r].val)
-        elif data[r].row == "C":
+        elif data[r].col == "C":
             c.append(data[r].val)
-        elif data[r].row == "G":
+        elif data[r].col == "G":
             g.append(data[r].val)
         else:
             t.append(data[r].val)
-    mid = ids.motif_id+"."+ids.collection
+    mid = "%s.%s" % (ids.motif_id, ids.collection_db)
     motif = ("\nMOTIF %s %s\n\n" % (mid, ids.motif_name))
     out.write(motif)
 
-    header = ("letter-probability matrix: alength= 4 w= %s nsites= 20 E= 0\n" % (str(len(a)-1)))
+    header = ("letter-probability matrix: alength= 4 w= %s nsites= 20 E= 0\n" % (str(len(a) - 1)))
     out.write(header)
+    #print(a)
     for j in range(1, len(a)):
         write_out = ("  %.6f\t  %.6f\t  %.6f\t  %.6f\t\n" % (a[j], float(c[j]), float(g[j]), float(t[j])))
         out.write(write_out)

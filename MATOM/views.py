@@ -4,6 +4,7 @@ import os
 from crispy_forms.utils import render_crispy_form
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.template.context_processors import csrf
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, TemplateView, View
@@ -11,13 +12,14 @@ from jsonview.decorators import json_view
 from pylab import *
 
 import MATOM.models
+from MARSTools import MARSTools
 from MARSTools.MARSTools import Assess_by_score, Assess_by_score_pbm, motif_ic, run_gimme
 from MARSTools.MARSTools.run_centrimo import run_centrimo
 from MARSTools.MARSTools.run_fisim import run_fisim
 from MARSTools.MARSTools.run_tomtom import run_tomtom
 from MARSTools.MARSTools.utils import rotate_image
 from MATOM import utils
-from MATOM.models import ChipSeq, Matrix, Pbm, run_get_meme, run_get_meme_id
+from MATOM.models import ChipSeq, Motif, Pbm, run_get_meme, run_get_meme_id
 from MATOM.utils import meme_head, mkdir_p, get_path, meme_path, BASE_DIR, create_parameter_file, \
     combine_meme, handle_uploaded_bed, get_table, is_meme_uploaded, is_meme_pasted, get_parameter_dict
 from .models import TranscriptionFactor, ChipData, PbmData
@@ -89,7 +91,7 @@ class SearchView(AjaxableResponseMixin, FormView):
 
             if len(found_entries) == 1:
                 tf_class_id = found_entries[0].tf_id
-                Tf_exists = Matrix.objects.filter(tf_id=tf_class_id).exists()
+                Tf_exists = Motif.objects.filter(tf_id=tf_class_id).exists()
 
                 chip_seq_exist = ChipSeq.objects.filter(tf_id=tf_class_id).exists()
 
@@ -221,7 +223,7 @@ class SearchResultsView(FormView):
 
         #Now lets validate available options
 
-        Tf_exists = Matrix.objects.filter(tf_id=tf_class_id).exists()
+        Tf_exists = Motif.objects.filter(tf_id=tf_class_id).exists()
 
         chip_seq_exist = ChipSeq.objects.filter(tf_id=tf_class_id).exists()
 
@@ -329,7 +331,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
                 if formats == 'paste' and pasted_motif == "":
                     formats = False
                     print("pasted")
-            tf_exists = Matrix.objects.filter(motif_name=tf).exists()
+            tf_exists = Motif.objects.filter(motif_name=tf).exists()
             # pasted_motif is not u"" or uploaded_motif
             #print job_no
             if tf != "":
@@ -440,7 +442,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
                     meme_error = "NO_TF"
             else:
                 meme_error = "REQUIRED"
-        #os.removedirs(self.static_files)
+        # os.removedirs(self.static_files)
         if os.path.exists(static_files):
             import shutil
             print("We had to delete")
@@ -451,7 +453,7 @@ class AssessByScoreView(AjaxableResponseMixin, FormView):
         return {'success': False, 'form_html': form_html, 'error_message': self.error_message, 'meme_error': meme_error}
 
     def handle_motifs(self, tf, user_motif, formats, results_folder, tf_exists=True):
-        #os.makedirs('%s/%s' % (results_folder, tf))
+        # os.makedirs('%s/%s' % (results_folder, tf))
         mkdir_p('%s/%s' % (results_folder, tf))
         meme_out = "%s/%s/%s.meme" % (results_folder, tf, tf)
         uploaded_motif = self.request.FILES.get('uploaded_motif')
@@ -578,7 +580,7 @@ class AssessByComparisonView(AssessByScoreView):
                 pasted_motif = request.POST.get('test_motif')
 
                 uploaded_motif = self.request.FILES.get('uploaded_motif')
-                tf_exists = Matrix.objects.filter(motif_name=tf).exists()
+                tf_exists = Motif.objects.filter(motif_name=tf).exists()
                 print(formats)
                 if formats:
                     if formats == 'upload' and uploaded_motif is None:
@@ -672,7 +674,7 @@ class AssessByEnrichmentView(AssessByScoreView):
                     formats = False
                     print("pasted")
             uploaded_chip = self.request.FILES.get('uploaded_chipseq')
-            tf_exists = Matrix.objects.filter(motif_name=tf).exists()
+            tf_exists = Motif.objects.filter(motif_name=tf).exists()
 
             if tf != "":
                 if tf_exists or formats:
@@ -745,32 +747,34 @@ class AssessByEnrichmentView(AssessByScoreView):
 #       Results display view
 ###############################################################################
 
+def get(request, slug, *args, **kwargs):
+
+    job_no = request.path_info.split("job")[-1]
+
+    results_folder = "%s/compare/%s" % (get_path()[0], str(job_no))
+    par_name = "%s/parameter_file" % results_folder
+
+    if os.path.isfile(par_name):
+
+        parameters = get_parameter_dict(par_name)
+
+        tf = parameters['tf']
+        mode = parameters['mode']
+
+        raw_out_file = "%s/%s/%s_ic.txt" % (results_folder, tf, tf)
+        t_head = get_table(raw_out_file)[0]
+        t_body = get_table(raw_out_file)[1]
+
+        display_img = '/static/files/compare/%s/%s' % (job_no, tf)
+        data = {'tf': tf, 'mode': mode, 'display_img': display_img, 't_body': t_body, 't_head': t_head}
+
+        return render(request, 'MATOM/assess_by_comparison_results.html', context=data)
+    else:
+        return render(request, '404.html')
+
+
 class GetResultsCompare(View):
-
-    def get(self, request, slug, *args, **kwargs):
-
-        job_no = request.path_info.split("job")[-1]
-
-        results_folder = "%s/compare/%s" % (get_path()[0], str(job_no))
-        par_name = "%s/parameter_file" % results_folder
-
-        if os.path.isfile(par_name):
-
-            parameters = get_parameter_dict(par_name)
-
-            tf = parameters['tf']
-            mode = parameters['mode']
-
-            raw_out_file = "%s/%s/%s_ic.txt" % (results_folder, tf, tf)
-            t_head = get_table(raw_out_file)[0]
-            t_body = get_table(raw_out_file)[1]
-
-            display_img = '/static/files/compare/%s/%s' % (job_no, tf)
-            data = {'tf': tf, 'mode': mode, 'display_img': display_img, 't_body': t_body, 't_head': t_head}
-
-            return render(request, 'MATOM/assess_by_comparison_results.html', context=data)
-        else:
-            return render(request, '404.html')
+    pass
 
 
 class GetResultsScore(View):

@@ -8,8 +8,14 @@ from django.contrib.sessions.backends.db import SessionStore
 
 from MATOM.models import TranscriptionFactor
 
-
 class SearchForm(forms.Form):
+    ORG_CHOICES =(("SAPIENS", 'Human'), ("MELANONGASTER", 'Drosophila'))
+    org = forms.ChoiceField(
+        choices=ORG_CHOICES,
+        label="Select the organism:",
+        #widget=forms.RadioSelect(attrs={'id': 'id-org'}),
+        initial='SAPIENS'
+    )
     search = forms.CharField(
         label="Enter TF name",
         initial='Atf1'
@@ -26,12 +32,20 @@ class SearchForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_action = '/search/'
         self.helper.layout = Layout(
+            'org',
             'search'
 
         )
 
 
 class AssessByComparisonForm(forms.Form):
+    ORG_CHOICES =(("SAPIENS", 'Human'), ("MELANONGASTER", 'Drosophila'))
+    org = forms.ChoiceField(
+        choices=ORG_CHOICES,
+        label="Select the organism:",
+        #widget=forms.RadioSelect(attrs={'id': 'id-org'}),
+        initial='SAPIENS'
+    )
     COMPARE_CHOICES =(("FISIM", 'FISim'), ("TOMTOM", 'Tomtom'))
     mode = forms.ChoiceField(
         choices=COMPARE_CHOICES,
@@ -72,8 +86,9 @@ class AssessByComparisonForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_action = '/comparison/'
         self.helper.layout = Layout(
-            'mode',
+            'org',
             'tf',
+            'mode',
             InlineRadios('formats'),
             'test_motif',
             'uploaded_motif'
@@ -82,6 +97,13 @@ class AssessByComparisonForm(forms.Form):
 
 
 class AssessByScoreForm(forms.Form):
+    ORG_CHOICES =(("SAPIENS", 'Human'), ("MELANONGASTER", 'Drosophila'))
+    org = forms.ChoiceField(
+        choices=ORG_CHOICES,
+        label="Select the organism:",
+        #widget=forms.RadioSelect(attrs={'id': 'id-org'}),
+        initial='SAPIENS'
+    )
     MODE_CHOICES = (("ASSESS", 'SCORE'), ('GIMME', 'Gimme'))
     mode = forms.ChoiceField(
         choices=MODE_CHOICES,
@@ -145,8 +167,9 @@ class AssessByScoreForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_action = '/score/'
         self.helper.layout = Layout(
-            'mode',
+            'org',
             'tf',
+            'mode',
             InlineRadios('formats'),
             'test_motif',
             'uploaded_motif',
@@ -158,7 +181,13 @@ class AssessByScoreForm(forms.Form):
 
 
 class AssessByEnrichmentForm(forms.Form):
-
+    ORG_CHOICES =(("SAPIENS", 'Human'), ("MELANONGASTER", 'Drosophila'))
+    org = forms.ChoiceField(
+        choices=ORG_CHOICES,
+        label="Select the organism:",
+        #widget=forms.RadioSelect(attrs={'id': 'id-org'}),
+        initial='SAPIENS'
+    )
     mode = forms.ChoiceField(
         choices=[(x, x) for x in ("CENTRIMO", "AME")],
         label="Select Motif enrichment algorithm",
@@ -202,8 +231,9 @@ class AssessByEnrichmentForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_action = '/enrichment/'
         self.helper.layout = Layout(
-            'mode',
+            'org',
             'tf',
+            'mode',
             InlineRadios('formats'),
             'test_motif',
             'uploaded_motif',

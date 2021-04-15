@@ -53,3 +53,18 @@ After running these [stack](https://stackoverflow.com/questions/7475223/mysql-co
 Now working to reset my password using [these resources](https://gist.github.com/zubaer-ahammed/c81c9a0e37adc1cb9a6cdc61c4190f52)
 
 Solved with [these instructions](https://medium.com/@devontem/solved-cant-connect-to-local-mysql-server-through-socket-tmp-mysql-sock-2-f52c9c546f7)
+
+https://stackoverflow.com/questions/56590380/import-sql-file-in-django-v-2-2
+
+Six error forced me to downgrade Django to version 2.2: This is what we will support for now. 
+
+    First of all create a database using your SQL file.
+    Then add the details of your database into settings.py file.
+    Just run python manage.py inspectdb command, you will see all the table structures in your new database which creates with your SQL file as a Django Models structure. (convert your database into python django model).
+    You can get those details as a .py by running python manage.py inspectdb > models_new.py command.
+
+Now you have all the table structures in that models.py file which create in last step.
+
+    Then change your settings.py file for old database which you migrated earlier.
+    Get those details from models_new.py and add into your app_name/models.py file and save it.
+    Run python manage.py makemigrations and python manage.py migrate.

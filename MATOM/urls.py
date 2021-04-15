@@ -1,5 +1,5 @@
 from django.conf.urls import url
-
+import debug_toolbar
 from MATOM import views
 
 urlpatterns = [
@@ -53,7 +53,6 @@ urlpatterns = [
         regex=r'enrichment/job(\d+)$',
         view=views.GetResultsEnrich.as_view(),
         name="enrichment-results"),
-
     # url(
     #     regex=r'search/$',
     #     view=search_views.SearchView.as_view(),
